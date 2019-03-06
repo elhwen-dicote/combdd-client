@@ -1,0 +1,40 @@
+:host {
+    width: 100%;
+    display: inline-flex;
+    flex-flow: row nowrap;
+    margin: 0;
+    padding: 0;
+}
+
+.num-input-button {
+    margin: 0 1px;
+    padding: 0;
+    border-width: 2px;
+    flex: 0 1 auto;
+    height: 15.75px;
+    font-size: 12px;
+    opacity: 0.2;
+    transition: opacity 200ms;
+}
+
+:host.floating .num-input-button {
+    opacity: 1;
+}
+
+.num-input-field {
+    text-align: end;
+    margin-right: 5px;
+    padding-right: 5px;
+    flex: 1 1 auto;
+    min-width: 50px;
+}
+
+input[type=number] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}

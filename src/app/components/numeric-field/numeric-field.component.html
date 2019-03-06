@@ -1,0 +1,9 @@
+<input type="number" class="num-input-field mat-input-element" #input (input)="onInput(input)" (blur)="onBlur()" [disabled]="disabled">
+
+<button type="button" class="num-input-button" (click)="increment()">
+  <mat-icon [inline]="true">add</mat-icon>
+</button>
+
+<button type="button" class="num-input-button" (click)="decrement()">
+  <mat-icon inline>remove</mat-icon>
+</button>

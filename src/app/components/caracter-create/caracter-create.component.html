@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup" (ngSubmit)="saveCaracter()">
+
+  <app-card-layout title="Création d'un personnage">
+
+    <app-caracter-form formControlName="caracter"></app-caracter-form>
+
+    <div class="button-box">
+
+      <button mat-raised-button color="primary" type="submit">OK</button>
+      <button mat-raised-button color="primary" type="button" (click)="cancel()">Annuler</button>
+      <button mat-raised-button color="primary" type="button" (click)="reset()">Réinit.</button>
+
+    </div>
+
+  </app-card-layout>
+
+
+</form>

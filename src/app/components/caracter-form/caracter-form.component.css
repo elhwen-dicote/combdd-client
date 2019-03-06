@@ -1,0 +1,34 @@
+.mat-card {
+    width: 80%;
+    min-width: 120px;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.app-row {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: stretch;
+    align-items: stretch;
+    margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.mat-form-field {
+    flex: 1 1 0;
+    margin-right: 30px
+}
+
+.mat-form-field:last-child {
+    margin-right: 0;
+}
+
+.spacer{
+    flex:1 1 0;
+}
+
+fieldset {
+    margin: 20px 0;
+}
+

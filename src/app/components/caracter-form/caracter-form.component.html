@@ -1,0 +1,55 @@
+<div [formGroup]="caracterForm">
+
+  <div class="app-row">
+
+    <mat-form-field>
+      <mat-label>Nom:</mat-label>
+      <input matInput type="text" placeholder="Nom du personnage..." formControlName="name" size="200">
+    </mat-form-field>
+
+  </div>
+
+  <fieldset>
+    <legend>Points de Vie</legend>
+
+    <div class="app-row">
+
+      <mat-form-field>
+        <mat-label>Max de points de vie:</mat-label>
+        <app-numeric-field placeholder="Nombre max de points de vie..." formControlName="maxHp"></app-numeric-field>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Points de vie actuels:</mat-label>
+        <app-numeric-field placeholder="Nombre actuel de points de vie..." formControlName="hp"></app-numeric-field>
+      </mat-form-field>
+
+      <div class="spacer"></div>
+    </div>
+
+  </fieldset>
+
+  <fieldset>
+    <legend>Modificateurs</legend>
+
+    <div class="app-row">
+
+      <mat-form-field>
+        <mat-label>Classe d'armure:</mat-label>
+        <app-numeric-field placeholder="Classe d'armure..." formControlName="ca"></app-numeric-field>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Bonus de dextérité:</mat-label>
+        <app-numeric-field placeholder="Bonus de dextérité..." formControlName="dext_mod"></app-numeric-field>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Modificateur de force:</mat-label>
+        <app-numeric-field placeholder="Modificateur de force..." formControlName="strength_mod"></app-numeric-field>
+      </mat-form-field>
+
+    </div>
+
+  </fieldset>
+</div>

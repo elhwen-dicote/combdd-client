@@ -1,0 +1,35 @@
+.mat-card {
+    width: 80%;
+    min-width: 120px;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+.button-box {
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.button-box button {
+    flex:1 1 0;
+    margin-right: 40px;
+    margin-left: 40px;
+    max-width: 30%;
+}
+
+.mat-header-cell, .mat-cell {
+    /* text-align: center; */
+    justify-content: center;
+}
+
+.mat-icon-button {
+    font-size: 1.2em;
+}
+
+.mat-column-edit,.mat-column-delete {
+    /* border:1px solid red; */
+    max-width:40px;
+}
+
+

@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { CaracterListComponent } from './components/caracter-list/caracter-list.component';
 import { CaracterCreateComponent } from './components/caracter-create/caracter-create.component';
-import { TestCaracterFormComponent } from './components/test-caracter-form/test-caracter-form.component';
 import { CaracterEditComponent } from './components/caracter-edit/caracter-edit.component';
+import { GroupCreateComponent } from './components/group-create/group-create.component';
 
 const routes: Routes = [
   {
@@ -20,8 +20,8 @@ const routes: Routes = [
     path: 'caracter-edit/:id',
     component: CaracterEditComponent,
   }, {
-    path: 'test-caracter-form',
-    component: TestCaracterFormComponent,
+    path: 'group-create',
+    component: GroupCreateComponent,
   }, {
     path: '',
     redirectTo: '/welcome',

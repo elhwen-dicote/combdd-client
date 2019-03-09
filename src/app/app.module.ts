@@ -19,9 +19,9 @@ import { CaracterListComponent } from './components/caracter-list/caracter-list.
 import { CaracterCreateComponent } from './components/caracter-create/caracter-create.component';
 import { NumericFieldComponent } from './components/numeric-field/numeric-field.component';
 import { CaracterFormComponent } from './components/caracter-form/caracter-form.component';
-import { TestCaracterFormComponent } from './components/test-caracter-form/test-caracter-form.component';
 import { CardLayoutComponent } from './components/card-layout/card-layout.component';
 import { CaracterEditComponent } from './components/caracter-edit/caracter-edit.component';
+import { GroupCreateComponent } from './components/group-create/group-create.component';
 
 @NgModule({
   declarations: [
@@ -32,9 +32,9 @@ import { CaracterEditComponent } from './components/caracter-edit/caracter-edit.
     CaracterCreateComponent,
     NumericFieldComponent,
     CaracterFormComponent,
-    TestCaracterFormComponent,
     CardLayoutComponent,
     CaracterEditComponent,
+    GroupCreateComponent,
   ],
   imports: [
     BrowserModule,

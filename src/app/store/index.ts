@@ -12,17 +12,20 @@ import { State as CaracterCreateState, reducer as caracterCreateReducer, selectC
 import { CaracterCreateEffects } from './caracter-create/caracter-create.effects';
 import { State as CaracterEditState, reducer as caracterEditReducer, selectCaracterEditCaracter } from './caracter-edit/caracter-edit.reducer';
 import { CaracterEditEffects } from './caracter-edit/caracter-edit.effects';
+import * as fromGroupCreate from './group-create/group-create.reducer';
 
 export interface AppState {
   caracterPage: CaracterPageState;
   caracterCreate: CaracterCreateState;
   caracterEdit: CaracterEditState;
+  groupCreate: fromGroupCreate.State;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   caracterPage: caracterPageReducer,
   caracterCreate: caracterCreateReducer,
   caracterEdit: caracterEditReducer,
+  groupCreate: fromGroupCreate.reducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];

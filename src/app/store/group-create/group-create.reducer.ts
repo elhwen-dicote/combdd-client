@@ -33,3 +33,5 @@ export function reducer(state = initialState, action: GroupCreateActions): State
       return state;
   }
 }
+
+export const selectGroupCreateGroup = (state:State) => state.group;

@@ -12,20 +12,20 @@ import { State as CaracterCreateState, reducer as caracterCreateReducer, selectC
 import { CaracterCreateEffects } from './caracter-create/caracter-create.effects';
 import { State as CaracterEditState, reducer as caracterEditReducer, selectCaracterEditCaracter } from './caracter-edit/caracter-edit.reducer';
 import { CaracterEditEffects } from './caracter-edit/caracter-edit.effects';
-import * as fromGroupCreate from './group-create/group-create.reducer';
+import { State as GroupCreateState, reducer as groupCreateReducer, selectGroupCreateGroup } from './group-create/group-create.reducer';
 
 export interface AppState {
   caracterPage: CaracterPageState;
   caracterCreate: CaracterCreateState;
   caracterEdit: CaracterEditState;
-  groupCreate: fromGroupCreate.State;
+  groupCreate: GroupCreateState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   caracterPage: caracterPageReducer,
   caracterCreate: caracterCreateReducer,
   caracterEdit: caracterEditReducer,
-  groupCreate: fromGroupCreate.reducer,
+  groupCreate: groupCreateReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
@@ -76,4 +76,18 @@ const selectCaracterEdit = createFeatureSelector<AppState, CaracterEditState>('c
 export const caracterEditCaracter = createSelector(
   selectCaracterEdit,
   selectCaracterEditCaracter,
+);
+
+// group-create actions
+export { GroupCreateSet, GroupCreateReset } from './group-create/group-create.actions';
+
+// group-create selectors
+const selectGroupCreate = createFeatureSelector<AppState, GroupCreateState>('groupCreate');
+export const groupCreateGroup = createSelector(
+  selectGroupCreate,
+  selectGroupCreateGroup,
+);
+export const groupCreateMembers = createSelector(
+  groupCreateGroup,
+  (group) => group.members,
 );

@@ -1,0 +1,27 @@
+.app-col {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: stretch;
+    margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+fieldset {
+    margin: 20px 0;
+}
+
+.member-panel {
+    display:flex;
+    flex-flow: row nowrap;
+}
+
+.member-panel > * {
+    flex : 1 1 0;
+    margin-right: 30px;
+    padding: 20px;
+}
+
+.member-panel > *:last-child {
+    margin-right: 0;
+}

@@ -4,62 +4,8 @@
     </mat-card-header>
     <mat-card-content>
 
-        <mat-form-field>
-            <mat-label>Filtre:</mat-label>
-            <input matInput type="text" [formControl]="filterControl" placeholder="filtre...">
-        </mat-form-field>
-
-        <mat-table [dataSource]="page$" matSort>
-
-            <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
-                <mat-cell *matCellDef="let caracter">{{caracter.name}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="hp">
-                <mat-header-cell *matHeaderCellDef>Points de vie</mat-header-cell>
-                <mat-cell *matCellDef="let caracter">{{caracter.hp}}/{{caracter.maxHp}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="ca">
-                <mat-header-cell *matHeaderCellDef>Classe d'armure</mat-header-cell>
-                <mat-cell *matCellDef="let caracter">{{caracter.ca}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="dext_mod">
-                <mat-header-cell *matHeaderCellDef>Bonus de dextérité</mat-header-cell>
-                <mat-cell *matCellDef="let caracter">{{caracter.dext_mod}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="strength_mod">
-                <mat-header-cell *matHeaderCellDef>Bonus de force</mat-header-cell>
-                <mat-cell *matCellDef="let caracter">{{caracter.strength_mod}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="edit">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                <mat-cell *matCellDef="let caracter">
-                    <button mat-icon-button (click)="editCaracter(caracter._id)">
-                        <mat-icon inline>edit</mat-icon>
-                    </button>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="delete">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                <mat-cell *matCellDef="let caracter">
-                    <button mat-icon-button (click)="deleteCaracter(caracter._id)">
-                        <mat-icon inline>delete</mat-icon>
-                    </button>
-                </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-            <mat-row *matRowDef="let row;columns:columns"></mat-row>
-
-        </mat-table>
-        <mat-paginator [length]="(meta$|async).totalCount" pageSize="3" pageIndex="0" [pageSizeOptions]="[3,5,10]">
-        </mat-paginator>
+        <app-caracter-table [columns]="columns" [actions]="actions" (action)="onAction($event)">
+        </app-caracter-table>
 
     </mat-card-content>
     <mat-card-actions class="button-box">

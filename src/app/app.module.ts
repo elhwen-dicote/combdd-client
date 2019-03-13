@@ -22,6 +22,7 @@ import { CaracterFormComponent } from './components/caracter-form/caracter-form.
 import { CardLayoutComponent } from './components/card-layout/card-layout.component';
 import { CaracterEditComponent } from './components/caracter-edit/caracter-edit.component';
 import { GroupCreateComponent } from './components/group-create/group-create.component';
+import { CaracterTableComponent } from './components/caracter-table/caracter-table.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { GroupCreateComponent } from './components/group-create/group-create.com
     CardLayoutComponent,
     CaracterEditComponent,
     GroupCreateComponent,
+    CaracterTableComponent,
   ],
   imports: [
     BrowserModule,

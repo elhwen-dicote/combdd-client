@@ -1,0 +1,14 @@
+mat-table.mat-table {
+    width: 100%;
+}
+.mat-header-cell, .mat-cell {
+    justify-content: center;
+}
+
+.mat-icon-button {
+    font-size: 1.2em;
+}
+
+.mat-column-action {
+    max-width:40px;
+}

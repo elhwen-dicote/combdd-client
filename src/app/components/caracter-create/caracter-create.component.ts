@@ -11,6 +11,7 @@ import {
   CaracterCreateSet,
 } from 'src/app/store';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-caracter-create',
@@ -26,6 +27,7 @@ export class CaracterCreateComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store<AppState>,
     private router: Router,
+    private location: Location,
   ) { }
 
   ngOnInit() {
@@ -70,7 +72,7 @@ export class CaracterCreateComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/caracter-list']);
+    this.location.back();
   }
 
 }

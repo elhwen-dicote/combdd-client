@@ -1,0 +1,47 @@
+<mat-form-field>
+  <mat-label>Filtre:</mat-label>
+  <input matInput type="text" [formControl]="filterControl" placeholder="filtre...">
+</mat-form-field>
+
+<mat-table [dataSource]="caracters$" matSort>
+
+  <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
+      <mat-cell *matCellDef="let caracter">{{caracter.name}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="hp">
+      <mat-header-cell *matHeaderCellDef>PV</mat-header-cell>
+      <mat-cell *matCellDef="let caracter">{{caracter.hp}}/{{caracter.maxHp}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ca">
+      <mat-header-cell *matHeaderCellDef>CA</mat-header-cell>
+      <mat-cell *matCellDef="let caracter">{{caracter.ca}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="dext_mod">
+      <mat-header-cell *matHeaderCellDef>Bonus de dextérité</mat-header-cell>
+      <mat-cell *matCellDef="let caracter">{{caracter.dext_mod}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="strength_mod">
+      <mat-header-cell *matHeaderCellDef>Bonus de force</mat-header-cell>
+      <mat-cell *matCellDef="let caracter">{{caracter.strength_mod}}</mat-cell>
+  </ng-container>
+
+  <ng-container *ngFor="let action of actions" [matColumnDef]="action.name">
+      <mat-header-cell *matHeaderCellDef  class="mat-column-action">{{action.header}}</mat-header-cell>
+      <mat-cell *matCellDef="let caracter" class="mat-column-action">
+          <button mat-icon-button [disabled]="isDisabled(action,caracter)" (click)="onClick(action,caracter)">
+              <mat-icon inline>{{action.icon}}</mat-icon>
+          </button>
+      </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+  <mat-row *matRowDef="let row;columns:columns"></mat-row>
+
+</mat-table>
+<mat-paginator [length]="(meta$|async).totalCount" pageSize="3" pageIndex="0" [pageSizeOptions]="[3,5,10]">
+</mat-paginator>

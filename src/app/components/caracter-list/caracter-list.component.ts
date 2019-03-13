@@ -18,17 +18,21 @@ import { CaracterPageDelete } from 'src/app/store/caracter-page/caracter-page.ac
   templateUrl: './caracter-list.component.html',
   styleUrls: ['./caracter-list.component.css']
 })
-export class CaracterListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CaracterListComponent implements OnInit {
 
-  filterControl: FormControl = new FormControl('');
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  page$: Observable<Caracter[]>;
-  total$: Observable<number>;
-  meta$ : Observable<CaracterPageMeta>;
   columns = ['name', 'hp', 'ca', 'dext_mod', 'strength_mod', 'edit', 'delete'];
-  private stalePageSubscription: Subscription;
-  private metaPageSubscription: Subscription;
+  actions = [
+    {
+      name: 'edit',
+      header: '',
+      icon: 'edit',
+    }, {
+      name: 'delete',
+      header: '',
+      icon: 'delete',
+    },
+  ];
+
 
   constructor(
     private store: Store<AppState>,
@@ -36,49 +40,20 @@ export class CaracterListComponent implements OnInit, OnDestroy, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.page$ = this.store.select(caracterPageCaracters);
-    this.total$ = this.store.select(caracterPageTotalCount);
-    this.meta$ = this.store.select(caracterPageMeta);
-    this.stalePageSubscription = this.store.select(caracterPageStale).subscribe(
-      (stale) => {
-        if (stale) {
-          this.loadPage();
-        }
-      },
-    );
-    this.metaPageSubscription = this.store.select(caracterPageMeta).subscribe(
-      (meta) => {
-        if ((meta.dataSize === 0) && (meta.pageOffset >= meta.pageSize)) {
-          this.paginator.pageIndex--;
-          this.loadPage();
-        }
-      }
-    );
-    setTimeout(() => this.loadPage(), 0);
   }
 
-  ngAfterViewInit(): void {
-    merge(
-      this.filterControl.valueChanges.pipe(
-        debounceTime(150),
-        distinctUntilChanged(),
-        tap(() => {
-          this.paginator.pageIndex = 0;
-        }),
-      ),
-      this.sort.sortChange,
-      this.paginator.page,
-    ).subscribe(() => {
-      this.loadPage();
-    });
-  }
+  onAction({ action, caracter }: { action: string, caracter: Caracter }) {
+    switch (action) {
+      case 'delete':
+        this.deleteCaracter(caracter._id);
+        break;
 
-  ngOnDestroy(): void {
-    if (this.stalePageSubscription) {
-      this.stalePageSubscription.unsubscribe();
-    }
-    if (this.metaPageSubscription) {
-      this.metaPageSubscription.unsubscribe();
+      case 'edit':
+        this.editCaracter(caracter._id);
+        break;
+
+      default:
+        break;
     }
   }
 
@@ -91,19 +66,7 @@ export class CaracterListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   editCaracter(id: string) {
-    this.router.navigate(['caracter-edit',id]);
-  }
-
-  private loadPage() {
-    this.store.dispatch(new CaracterPageLoad(
-      new CaracterPageRequest(
-        this.filterControl.value,
-        this.paginator.pageIndex * this.paginator.pageSize,
-        this.paginator.pageSize,
-        this.sort.direction ? this.sort.active : '',
-        this.sort.direction
-      )
-    ));
+    this.router.navigate(['caracter-edit', id]);
   }
 
 }

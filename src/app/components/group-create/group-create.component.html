@@ -25,21 +25,12 @@
 
           </mat-table>
 
-          <div>
+          <!-- <div> -->
 
-            <mat-table [dataSource]="(group$ | async).members">
+            <app-caracter-table [columns]="caractersColumns" [actions]="actions" (action)="onAction($event)"></app-caracter-table>
 
-              <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
-                <mat-cell *matCellDef="let caracter">{{caracter.name}}</mat-cell>
-              </ng-container>
 
-              <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-              <mat-row *matRowDef="let row;columns:columns;"></mat-row>
-
-            </mat-table>
-
-          </div>
+          <!-- </div> -->
 
         </div>
 

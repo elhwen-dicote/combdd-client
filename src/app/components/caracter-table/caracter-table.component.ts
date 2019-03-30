@@ -1,18 +1,32 @@
 import { Component, OnInit, Input, ViewChild, Output, OnDestroy, AfterViewInit, EventEmitter } from '@angular/core';
 import { Observable, Subscription, merge } from 'rxjs';
 import { Caracter } from 'src/app/model/caracter.model';
-import { CaracterPageMeta, CaracterPageRequest } from 'src/app/model/caracter-page.model';
 import { FormControl } from '@angular/forms';
 import { MatSort, MatPaginator } from '@angular/material';
 import { AppState, caracterPageCaracters, caracterPageMeta, caracterPageStale, CaracterPageLoad } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { PageRequest } from 'src/app/model/page-request.model';
+import { PageMeta } from 'src/app/model/page.model';
 
-interface Action {
-  name: string;
-  header: string;
-  icon: string;
-  isEnabled?: boolean | ((c: Caracter) => boolean);
+export class Action {
+  constructor(
+    public name: string,
+    public header: string,
+    public icon: string,
+    public isEnabled?: boolean | ((c: Caracter) => boolean),
+  ) { }
+  isDisabled(caracter: Caracter): boolean {
+    let enabled = true;
+    if (this.isEnabled) {
+      if (typeof this.isEnabled === 'boolean') {
+        enabled = this.isEnabled;
+      } else {
+        enabled = this.isEnabled(caracter);
+      }
+    }
+    return !enabled;
+  }
 }
 
 @Component({
@@ -30,7 +44,7 @@ export class CaracterTableComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   caracters$: Observable<Caracter[]>;
-  meta$: Observable<CaracterPageMeta>;
+  meta$: Observable<PageMeta>;
   private stalePageSub: Subscription;
   private metaPageSub: Subscription;
   private controlSub: Subscription;
@@ -98,21 +112,21 @@ export class CaracterTableComponent implements OnInit, OnDestroy, AfterViewInit 
     });
   }
 
-  isDisabled(action: Action, caracter: Caracter) {
-    let enabled = true;
-    if (action.isEnabled) {
-      if (typeof action.isEnabled === 'boolean') {
-        enabled = action.isEnabled;
-      } else {
-        enabled = action.isEnabled(caracter);
-      }
-    }
-    return !enabled;
-  }
+  // isDisabled(action: Action, caracter: Caracter) {
+  //   let enabled = true;
+  //   if (action.isEnabled) {
+  //     if (typeof action.isEnabled === 'boolean') {
+  //       enabled = action.isEnabled;
+  //     } else {
+  //       enabled = action.isEnabled(caracter);
+  //     }
+  //   }
+  //   return !enabled;
+  // }
 
   private loadPage() {
     this.store.dispatch(new CaracterPageLoad(
-      new CaracterPageRequest(
+      new PageRequest(
         this.filterControl.value,
         this.paginator.pageIndex * this.paginator.pageSize,
         this.paginator.pageSize,

@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup">
+<form [formGroup]="formGroup" (ngSubmit)="saveGroup()">
   <app-card-layout title="Création d'un groupe">
 
     <div class="app-col">
@@ -36,6 +36,14 @@
 
 
       </fieldset>
+
+    </div>
+
+    <div class="button-box">
+
+      <button mat-raised-button color="primary" type="submit">OK</button>
+      <button mat-raised-button color="primary" type="button" (click)="cancel()">Annuler</button>
+      <button mat-raised-button color="primary" type="button" (click)="reset()">Réinit.</button>
 
     </div>
 

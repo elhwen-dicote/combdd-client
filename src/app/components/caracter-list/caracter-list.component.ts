@@ -1,17 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MatSort, MatPaginator, _MatSortHeaderMixinBase } from '@angular/material';
-
 import { Store } from '@ngrx/store';
-import { merge, Observable, Subscription } from 'rxjs';
-import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { AppState, CaracterPageLoad, caracterPageCaracters, caracterPageTotalCount, caracterPageStale, caracterPageMeta, } from 'src/app/store';
-import { CaracterPageRequest, CaracterPageMeta } from 'src/app/model/caracter-page.model';
+import { AppState, } from 'src/app/store';
 import { Caracter } from 'src/app/model/caracter.model';
 import { CaracterPageDelete } from 'src/app/store/caracter-page/caracter-page.actions';
+import { Action } from '../caracter-table/caracter-table.component';
 
 @Component({
   selector: 'app-caracter-list',
@@ -21,18 +16,10 @@ import { CaracterPageDelete } from 'src/app/store/caracter-page/caracter-page.ac
 export class CaracterListComponent implements OnInit {
 
   columns = ['name', 'hp', 'ca', 'dext_mod', 'strength_mod', 'edit', 'delete'];
-  actions = [
-    {
-      name: 'edit',
-      header: '',
-      icon: 'edit',
-    }, {
-      name: 'delete',
-      header: '',
-      icon: 'delete',
-    },
+  actions: Action[] = [
+    new Action('edit', '', 'edit'),
+    new Action('delete', '', 'delete'),
   ];
-
 
   constructor(
     private store: Store<AppState>,

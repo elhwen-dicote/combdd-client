@@ -4,16 +4,16 @@ import { Observable, EMPTY } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { CaracterCreateSave, CaracterCreateActionTypes, CaracterCreateReset } from './caracter-create.actions';
 import { switchMap, concatMap, catchError } from 'rxjs/operators';
-import { CaracterService } from 'src/app/services/caracter.service';
 import { Caracter } from 'src/app/model/caracter.model';
 import { CaracterPageStale } from '../caracter-page/caracter-page.actions';
+import { DataService } from 'src/app/services/data.service';
 
 @Injectable()
 export class CaracterCreateEffects {
 
   constructor(
     private actions$: Actions,
-    private caracterService: CaracterService
+    private dataService: DataService
   ) { }
 
   @Effect()
@@ -21,7 +21,7 @@ export class CaracterCreateEffects {
     ofType<CaracterCreateSave>(CaracterCreateActionTypes.Save),
     switchMap(
       (action: CaracterCreateSave) => {
-        return this.caracterService.saveCaracter(action.payload).pipe(
+        return this.dataService.saveCaracter(action.payload).pipe(
           concatMap((c: Caracter) => {
             return [
               new CaracterCreateReset(),

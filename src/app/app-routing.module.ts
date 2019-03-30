@@ -5,6 +5,8 @@ import { CaracterListComponent } from './components/caracter-list/caracter-list.
 import { CaracterCreateComponent } from './components/caracter-create/caracter-create.component';
 import { CaracterEditComponent } from './components/caracter-edit/caracter-edit.component';
 import { GroupCreateComponent } from './components/group-create/group-create.component';
+import { GroupListComponent } from './components/group-list/group-list.component';
+import { GroupEditComponent } from './components/group-edit/group-edit.component';
 
 const routes: Routes = [
   {
@@ -20,8 +22,14 @@ const routes: Routes = [
     path: 'caracter-edit/:id',
     component: CaracterEditComponent,
   }, {
+    path: 'group-list',
+    component: GroupListComponent,
+  }, {
     path: 'group-create',
     component: GroupCreateComponent,
+  }, {
+    path: 'group-edit/:id',
+    component: GroupEditComponent,
   }, {
     path: '',
     redirectTo: '/welcome',

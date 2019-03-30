@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { CaracterPageRequest, CaracterPage } from 'src/app/model/caracter-page.model';
+
+import { PageRequest, Page, Caracter } from 'src/app/model';
 
 export enum CaracterPageActionTypes {
   Load = '[CaracterPage] Load CaracterPage',
@@ -11,14 +12,14 @@ export enum CaracterPageActionTypes {
 export class CaracterPageLoad implements Action {
   readonly type = CaracterPageActionTypes.Load;
   constructor(
-    public payload: CaracterPageRequest,
+    public payload: PageRequest,
   ) { }
 }
 
 export class CaracterPageLoadSuccess implements Action {
   readonly type = CaracterPageActionTypes.LoadSuccess;
   constructor(
-    public payload: CaracterPage,
+    public payload: Page<Caracter>,
   ) { }
 }
 

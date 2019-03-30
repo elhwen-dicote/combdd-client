@@ -23,6 +23,10 @@ import { CardLayoutComponent } from './components/card-layout/card-layout.compon
 import { CaracterEditComponent } from './components/caracter-edit/caracter-edit.component';
 import { GroupCreateComponent } from './components/group-create/group-create.component';
 import { CaracterTableComponent } from './components/caracter-table/caracter-table.component';
+import { GroupListComponent } from './components/group-list/group-list.component';
+import { GroupTableComponent } from './components/group-table/group-table.component';
+import { GroupFormComponent } from './components/group-form/group-form.component';
+import { GroupEditComponent } from './components/group-edit/group-edit.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,10 @@ import { CaracterTableComponent } from './components/caracter-table/caracter-tab
     CaracterEditComponent,
     GroupCreateComponent,
     CaracterTableComponent,
+    GroupListComponent,
+    GroupTableComponent,
+    GroupFormComponent,
+    GroupEditComponent,
   ],
   imports: [
     BrowserModule,

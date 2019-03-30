@@ -1,10 +1,9 @@
 import { Action } from '@ngrx/store';
 import { CaracterPageAction, CaracterPageActionTypes } from './caracter-page.actions';
-import { CaracterPage } from 'src/app/model/caracter-page.model';
-
+import { Caracter, Page } from 'src/app/model';
 
 export interface State {
-  page: CaracterPage;
+  page: Page<Caracter>;
   loading: boolean;
   stale: boolean;
 }

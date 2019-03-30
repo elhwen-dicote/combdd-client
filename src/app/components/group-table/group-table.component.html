@@ -1,0 +1,35 @@
+<mat-form-field>
+  <mat-label>Filtre:</mat-label>
+  <input matInput type="text" [formControl]="filterControl" placeholder="filtre...">
+</mat-form-field>
+
+<mat-table [dataSource]="groups$" matSort [matSortActive]="(meta$ | async)?.sortBy"
+  [matSortDirection]="(meta$ | async)?.sortOrder">
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let group"><strong>{{group.name}}</strong></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="members">
+    <mat-header-cell *matHeaderCellDef>Effectif</mat-header-cell>
+    <mat-cell *matCellDef="let group">{{membersAsString(group)}}</mat-cell>
+  </ng-container>
+
+  <ng-container *ngFor="let action of actions" [matColumnDef]="action.name">
+    <mat-header-cell *matHeaderCellDef class="mat-column-action">{{action.header}}</mat-header-cell>
+    <mat-cell *matCellDef="let group" class="mat-column-action">
+      <button mat-icon-button type="button" [disabled]="isDisabled(action,group)" (click)="onClick(action,group)">
+        <mat-icon inline>{{action.icon}}</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+  <mat-row *matRowDef="let row;columns:columns"></mat-row>
+  <!-- <mat-row *matRowDef="let row;columns:['members']"></mat-row> -->
+
+</mat-table>
+<mat-paginator [length]="(meta$ | async)?.totalCount" [pageSize]="(meta$ | async)?.pageSize"
+  [pageIndex]="(meta$ | async)?.pageOffset / (meta$ | async)?.pageSize" [pageSizeOptions]="[3,5,10]">
+</mat-paginator>

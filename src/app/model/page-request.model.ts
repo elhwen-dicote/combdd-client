@@ -1,27 +1,10 @@
-import { Caracter } from './caracter.model';
-
-export interface CaracterPageMeta {
-    filter: string;
-    totalCount: number;
-    pageOffset: number;
-    pageSize: number;
-    sortBy: string;
-    sortOrder: 'asc' | 'desc' | '';
-    dataSize: number;
-}
-
-export interface CaracterPage {
-    page: Caracter[];
-    meta: CaracterPageMeta;
-}
-
-export class CaracterPageRequest {
+export class PageRequest {
     constructor(
         public filter: string = '',
         public pageOffset: number = 0,
-        public pageSize: number = 0,
+        public pageSize: number = 3,
         public sortBy: string = '',
-        public sortOrder: 'asc' | 'desc' | '' = 'asc',
+        public sortOrder: 'asc' | 'desc' | '' = '',
     ) { }
 
     buildIndex() {
@@ -34,9 +17,9 @@ export class CaracterPageRequest {
         ].join('\u0000');
     }
 
-    static readIndex(index: string): CaracterPageRequest {
+    static readIndex(index: string): PageRequest {
         const [filter, pageOffset, pageSize, sortBy, sortOrder] = index.split('\u{0000}');
-        return new CaracterPageRequest(
+        return new PageRequest(
             filter,
             parseInt(pageOffset, 10),
             parseInt(pageSize, 10),
@@ -44,4 +27,7 @@ export class CaracterPageRequest {
             ((sortOrder === 'desc') ? 'desc' : (sortOrder === 'asc') ? 'asc' : ''),
         );
     }
+
 }
+
+export const defaultPageRequest = new PageRequest();

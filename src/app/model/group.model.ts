@@ -1,7 +1,7 @@
 import { Caracter } from './caracter.model';
 
-export interface CaracterGroup {
-    id?: string;
+export interface Group {
+    _id?: string;
     name: string;
     members: Caracter[];
 }

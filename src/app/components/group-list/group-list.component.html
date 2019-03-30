@@ -1,0 +1,14 @@
+<mat-card class="mat-elevation-z8">
+        <mat-card-header>
+            <mat-card-title>Liste des groupes</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+    
+            <app-group-table [columns]="columns" [actions]="actions" (action)="onAction($event)">
+            </app-group-table>
+    
+        </mat-card-content>
+        <mat-card-actions class="button-box">
+            <button type="button" mat-raised-button color="primary" (click)="newGroup()">Nouveau...</button>
+        </mat-card-actions>
+    </mat-card>

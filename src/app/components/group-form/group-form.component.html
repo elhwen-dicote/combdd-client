@@ -1,0 +1,42 @@
+<div [formGroup]="groupForm" class="app-col">
+
+  <mat-form-field>
+    <mat-label>Nom:</mat-label>
+    <input matInput type="text" placeholder="Nom du groupe..." formControlName="name" size="200">
+  </mat-form-field>
+
+  <fieldset>
+    <legend>Membres </legend>
+
+    <div class="member-panel">
+
+      <mat-table [dataSource]="group.members">
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+          <mat-cell *matCellDef="let caracter"><strong>{{caracter.name}}</strong></mat-cell>
+        </ng-container>
+
+        <ng-container *ngFor="let action of actions" [matColumnDef]="action.name">
+          <mat-header-cell *matHeaderCellDef class="mat-column-action">{{action.header}}</mat-header-cell>
+          <mat-cell *matCellDef="let caracter" class="mat-column-action">
+            <button mat-icon-button type="button" [disabled]="action.isDisabled(caracter)"
+              (click)="onClick(action,caracter)">
+              <mat-icon inline>{{action.icon}}</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row *matRowDef="let row;columns:columns;"></mat-row>
+
+      </mat-table>
+
+      <app-caracter-table [columns]="caractersColumns" [actions]="caracterActions" (action)="onCaractersAction($event)">
+      </app-caracter-table>
+
+    </div>
+
+  </fieldset>
+
+</div>

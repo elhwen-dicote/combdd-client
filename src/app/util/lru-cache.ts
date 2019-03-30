@@ -21,7 +21,7 @@ export class LruCache<T> {
         return entry;
     }
 
-    public put(key: string, value: T) {
+    public set(key: string, value: T) {
 
         if (this.values.size >= this.maxEntries) {
             // least-recently used cache eviction strategy
@@ -33,8 +33,12 @@ export class LruCache<T> {
         this.values.set(key, value);
     }
 
-    public flush() {
+    public clear() {
         this.values.clear();
+    }
+
+    public delete(key: string): boolean {
+        return this.values.delete(key);
     }
 
 }

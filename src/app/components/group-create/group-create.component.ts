@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup, FormBuilder } from '@angular/forms';
+
+import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState, groupCreateGroup } from 'src/app/store';
-import { GroupCreateSet } from 'src/app/store/group-create/group-create.actions';
-import { CaracterGroup } from 'src/app/model/caracter-group.model';
-import { Caracter } from 'src/app/model/caracter.model';
 import { tap } from 'rxjs/operators';
+
+import { Group } from 'src/app/model/group.model';
+import { Caracter } from 'src/app/model/caracter.model';
+import { GroupCreate, AppState } from 'src/app/store';
 
 @Component({
   selector: 'app-group-create',
@@ -16,8 +18,8 @@ import { tap } from 'rxjs/operators';
 export class GroupCreateComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
-  group$: Observable<CaracterGroup>;
-  private group: CaracterGroup;
+  group$: Observable<Group>;
+  private group: Group;
   private formGroupSub: Subscription;
   private storeSub: Subscription;
 
@@ -35,26 +37,30 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
+    private location: Location,
   ) { }
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       name: [''],
     });
-    this.group$ = this.store.select(groupCreateGroup).pipe(
+    this.group$ = this.store.pipe(
+      select(GroupCreate.selectors.selectGroup),
       tap((group) => {
         this.group = group;
       }),
     );
     this.formGroupSub = this.formGroup.valueChanges.subscribe(
       (value) => {
-        this.store.dispatch(new GroupCreateSet({
+        this.store.dispatch(new GroupCreate.actions.Set({
           name: value.name,
-          members: [],
+          members: this.group.members,
         }))
       }
     );
-    this.storeSub = this.store.select(groupCreateGroup).subscribe(
+    this.storeSub = this.store.pipe(
+      select(GroupCreate.selectors.selectGroup),
+    ).subscribe(
       (group) => {
         this.formGroup.setValue({
           name: group.name,
@@ -85,11 +91,23 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  private addMember(caracter: Caracter, group: CaracterGroup) {
+  saveGroup() {
+    this.store.dispatch(new GroupCreate.actions.Save(this.group));
+  }
+
+  cancel() {
+    this.location.back();
+  }
+
+  reset() {
+    this.store.dispatch(new GroupCreate.actions.Reset());
+  }
+
+  private addMember(caracter: Caracter, group: Group) {
     const members = group.members;
     if (!members.some((c) => c._id === caracter._id)) {
-      this.store.dispatch(new GroupCreateSet({
-        members:[...members,caracter],
+      this.store.dispatch(new GroupCreate.actions.Set({
+        members: [...members, caracter],
       }));
     }
   }

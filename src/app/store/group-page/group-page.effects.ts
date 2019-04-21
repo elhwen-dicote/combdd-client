@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action, Store, select } from '@ngrx/store';
 import { Actions as EffectActions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of, EMPTY } from 'rxjs';
-import { switchMap, map, catchError, withLatestFrom, filter, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, filter, tap, concatMap } from 'rxjs/operators';
 
 import { AppState, GroupPage } from '../app-store';
 import { DataService } from 'src/app/services/data.service';
@@ -18,9 +18,14 @@ export class GroupPageEffects {
     private dataService: DataService,
   ) { }
 
-  @Effect() loadGroupPage$: Observable<Action> = this.actions$.pipe(
+  @Effect() loadRequest$: Observable<Action> = this.actions$.pipe(
+    ofType<GroupPage.actions.LoadRequest>(GroupPage.actions.ActionTypes.LoadRequest),
+    map(() => new GroupPage.actions.Load()),
+  );
+
+  @Effect() loadPage$: Observable<Action> = this.actions$.pipe(
     ofType<GroupPage.actions.Load>(GroupPage.actions.ActionTypes.Load),
-    withLatestFrom(this.store.select(GroupPage.selectors.selectRequest)),
+    withLatestFrom(this.store.pipe(select(GroupPage.selectors.selectRequest))),
     switchMap(
       ([, request]) => this.dataService.getGroupPage(request).pipe(
         map(page => new GroupPage.actions.LoadSuccess(page)),
@@ -31,15 +36,10 @@ export class GroupPageEffects {
       )),
   );
 
-  @Effect() loadRequest$: Observable<Action> = this.actions$.pipe(
-    ofType<GroupPage.actions.LoadRequest>(GroupPage.actions.ActionTypes.LoadRequest),
-    map(() => new GroupPage.actions.Load()),
-  );
-
   @Effect() delete$: Observable<Action> = this.actions$.pipe(
     ofType<GroupPage.actions.Delete>(GroupPage.actions.ActionTypes.Delete),
     switchMap(action => this.dataService.deleteGroup(action.payload).pipe(
-      switchMap(() => [
+      concatMap(() => [
         new GroupPage.actions.DeleteSuccess(action.payload),
         new GroupPage.actions.Load(),
       ]),

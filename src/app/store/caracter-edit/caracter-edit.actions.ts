@@ -1,32 +1,33 @@
 import { Action } from '@ngrx/store';
+
 import { Caracter } from 'src/app/model/caracter.model';
 
-export enum CaracterEditActionTypes {
+export enum ActionTypes {
   Load = '[CaracterEdit] Load Caracter',
   LoadSuccess = '[CaracterEdit] Load Caracter Success',
   Save = '[CaracterEdit] Save Caracter',
 }
 
-export class CaracterEditLoad implements Action {
-  readonly type = CaracterEditActionTypes.Load;
+export class Load implements Action {
+  readonly type = ActionTypes.Load;
   constructor(
     public payload: string,
   ) { }
 }
 
-export class CaracterEditLoadSuccess implements Action {
-  readonly type = CaracterEditActionTypes.LoadSuccess;
+export class LoadSuccess implements Action {
+  readonly type = ActionTypes.LoadSuccess;
   constructor(
     public payload: Caracter,
   ) { }
 }
 
-export class CaracterEditSave implements Action {
-  readonly type = CaracterEditActionTypes.Save;
+export class Save implements Action {
+  readonly type = ActionTypes.Save;
   constructor(
     public payload: Caracter,
   ) { }
 }
 
 
-export type CaracterEditActions = CaracterEditLoad | CaracterEditLoadSuccess | CaracterEditSave;
+export type AnyAction = Load | LoadSuccess | Save;

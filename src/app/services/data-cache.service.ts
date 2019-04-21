@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core';
+
 import { PageMeta, Caracter, Group, Page } from "../model";
 import { LruCache } from '../util/lru-cache';
-import { Injectable } from '@angular/core';
 
 class PageEntry {
     constructor(
@@ -33,6 +34,11 @@ export class DataCacheService {
 
     public putCaracter(car: Caracter): void {
         this.caracters.set(car._id, car);
+    }
+
+    public savedCaracter(c: Caracter): void {
+        this.putCaracter(c);
+        this.caracterPages.clear();
     }
 
     public deleteCaracter(id: string): void {
@@ -94,7 +100,7 @@ export class DataCacheService {
         });
     }
 
-    public savedGroup(g:Group):void{
+    public savedGroup(g: Group): void {
         this.putGroup(g);
         this.groupPages.clear();
     }
@@ -130,7 +136,7 @@ export class DataCacheService {
         })
     }
 
-    public invalidate() :void{
+    public invalidate(): void {
         this.caracters.clear();
         this.caracterPages.clear();
     }

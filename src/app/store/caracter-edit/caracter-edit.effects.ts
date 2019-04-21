@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+
+import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, EMPTY } from 'rxjs';
-import { CaracterEditActionTypes, CaracterEditLoad, CaracterEditLoadSuccess, CaracterEditSave } from './caracter-edit.actions';
 import { switchMap, map, catchError, concatMap } from 'rxjs/operators';
-import { Action } from '@ngrx/store';
+
 import { Caracter } from 'src/app/model/caracter.model';
-import { CaracterPageStale } from '../caracter-page/caracter-page.actions';
 import { DataService } from 'src/app/services/data.service';
+import { CaracterPage, CaracterEdit } from '../app-store';
 
 @Injectable()
 export class CaracterEditEffects {
@@ -17,12 +18,12 @@ export class CaracterEditEffects {
   ) { }
 
   @Effect() caracterLoad$: Observable<Action> = this.actions$.pipe(
-    ofType<CaracterEditLoad>(CaracterEditActionTypes.Load),
+    ofType<CaracterEdit.actions.Load>(CaracterEdit.actions.ActionTypes.Load),
     switchMap(
       (action) => {
         return this.dataService.getCaracter(action.payload).pipe(
           map((c: Caracter) => {
-            return new CaracterEditLoadSuccess(c);
+            return new CaracterEdit.actions.LoadSuccess(c);
           }),
           catchError((error) => {
             console.error(error);
@@ -34,23 +35,16 @@ export class CaracterEditEffects {
   );
 
   @Effect() caracterSave$: Observable<Action> = this.actions$.pipe(
-    ofType<CaracterEditSave>(CaracterEditActionTypes.Save),
-    switchMap(
-      (action) => {
-        return this.dataService.updateCaracter(action.payload).pipe(
-          map(
-            () => {
-              return new CaracterPageStale();
-            }
-          ),
-          catchError(
-            (error) => {
-              console.error(error);
-              return EMPTY;
-            }
-          ),
-        );
-      }
-    ),
+    ofType<CaracterEdit.actions.Save>(CaracterEdit.actions.ActionTypes.Save),
+    switchMap((action) => this.dataService.updateCaracter(action.payload).pipe(
+      map(() => new CaracterPage.actions.Load()),
+      catchError(
+        (error) => {
+          console.error(error);
+          return EMPTY;
+        }
+      ),
+    )),
   );
+
 }

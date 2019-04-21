@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { AppState, CaracterEditLoad, caracterEditCaracter } from 'src/app/store';
-import { CaracterEditSave } from 'src/app/store/caracter-edit/caracter-edit.actions';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
-import { Caracter } from 'src/app/model/caracter.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
+
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
+import { AppState, CaracterEdit, } from 'src/app/store';
+import { Caracter } from 'src/app/model/caracter.model';
 
 @Component({
   selector: 'app-caracter-edit',
@@ -24,7 +24,7 @@ export class CaracterEditComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private location:Location,
+    private location: Location,
     private fb: FormBuilder,
     private store: Store<AppState>,
   ) { }
@@ -41,9 +41,9 @@ export class CaracterEditComponent implements OnInit, OnDestroy {
       },
     });
     this.paramsSub = this.route.paramMap.subscribe((params) => {
-      this.store.dispatch(new CaracterEditLoad(params.get('id')));
+      this.store.dispatch(new CaracterEdit.actions.Load(params.get('id')));
     });
-    this.storeSub = this.store.select(caracterEditCaracter).subscribe(
+    this.storeSub = this.store.select(CaracterEdit.selectors.selectCaracter).subscribe(
       (caracter) => {
         this.caracter = caracter;
         this.formGroup.setValue({ caracter }, { emitEvent: false });
@@ -62,7 +62,7 @@ export class CaracterEditComponent implements OnInit, OnDestroy {
 
   saveCaracter() {
     if (this.caracter._id) {
-      this.store.dispatch(new CaracterEditSave({
+      this.store.dispatch(new CaracterEdit.actions.Save({
         _id: this.caracter._id,
         ...this.formGroup.value.caracter,
       }));
@@ -71,7 +71,7 @@ export class CaracterEditComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.formGroup.setValue({caracter:this.caracter});
+    this.formGroup.setValue({ caracter: this.caracter });
   }
 
   cancel() {

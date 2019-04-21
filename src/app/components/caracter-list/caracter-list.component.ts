@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { AppState, } from 'src/app/store';
+import { AppState, CaracterPage, } from 'src/app/store';
 import { Caracter } from 'src/app/model/caracter.model';
-import { CaracterPageDelete } from 'src/app/store/caracter-page/caracter-page.actions';
-import { Action } from '../caracter-table/caracter-table.component';
+import { TableAction } from 'src/app/util/table-action';
 
 @Component({
   selector: 'app-caracter-list',
@@ -16,9 +15,9 @@ import { Action } from '../caracter-table/caracter-table.component';
 export class CaracterListComponent implements OnInit {
 
   columns = ['name', 'hp', 'ca', 'dext_mod', 'strength_mod', 'edit', 'delete'];
-  actions: Action[] = [
-    new Action('edit', '', 'edit'),
-    new Action('delete', '', 'delete'),
+  actions: TableAction<Caracter>[] = [
+    new TableAction<Caracter>('edit', '', 'edit'),
+    new TableAction<Caracter>('delete', '', 'delete'),
   ];
 
   constructor(
@@ -49,7 +48,7 @@ export class CaracterListComponent implements OnInit {
   }
 
   deleteCaracter(id: string) {
-    this.store.dispatch(new CaracterPageDelete(id));
+    this.store.dispatch(new CaracterPage.actions.Delete(id));
   }
 
   editCaracter(id: string) {

@@ -3,8 +3,8 @@
   <input matInput type="text" [formControl]="filterControl" placeholder="filtre...">
 </mat-form-field>
 
-<mat-table [dataSource]="groups$" matSort [matSortActive]="(meta$ | async)?.sortBy"
-  [matSortDirection]="(meta$ | async)?.sortOrder">
+<mat-table [dataSource]="groups$" matSort [matSortActive]="matSortActive$ | async"
+  [matSortDirection]="matSortDirection$ | async">
 
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
@@ -19,7 +19,7 @@
   <ng-container *ngFor="let action of actions" [matColumnDef]="action.name">
     <mat-header-cell *matHeaderCellDef class="mat-column-action">{{action.header}}</mat-header-cell>
     <mat-cell *matCellDef="let group" class="mat-column-action">
-      <button mat-icon-button type="button" [disabled]="isDisabled(action,group)" (click)="onClick(action,group)">
+      <button mat-icon-button type="button" [disabled]="action.isDisabled(group)" (click)="onClick(action,group)">
         <mat-icon inline>{{action.icon}}</mat-icon>
       </button>
     </mat-cell>
@@ -30,6 +30,6 @@
   <!-- <mat-row *matRowDef="let row;columns:['members']"></mat-row> -->
 
 </mat-table>
-<mat-paginator [length]="(meta$ | async)?.totalCount" [pageSize]="(meta$ | async)?.pageSize"
-  [pageIndex]="(meta$ | async)?.pageOffset / (meta$ | async)?.pageSize" [pageSizeOptions]="[3,5,10]">
+<mat-paginator [length]="paginatorLength$ | async" [pageSize]="paginatorPageSize$ | async"
+  [pageIndex]="paginatorPageIndex$ | async" [pageSizeOptions]="[3,5,10]">
 </mat-paginator>

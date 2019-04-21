@@ -1,7 +1,5 @@
-import { Action } from '@ngrx/store';
 import { Caracter } from 'src/app/model/caracter.model';
-import { CaracterEditActions, CaracterEditActionTypes } from './caracter-edit.actions';
-
+import { AnyAction, ActionTypes } from './caracter-edit.actions';
 
 export interface State {
   caracter: Caracter;
@@ -18,10 +16,10 @@ export const initialState: State = {
   }
 };
 
-export function reducer(state = initialState, action: CaracterEditActions): State {
+export function reducer(state = initialState, action: AnyAction): State {
   switch (action.type) {
 
-    case CaracterEditActionTypes.LoadSuccess:
+    case ActionTypes.LoadSuccess:
       return {
         ...state,
         caracter: action.payload,
@@ -32,4 +30,6 @@ export function reducer(state = initialState, action: CaracterEditActions): Stat
   }
 }
 
-export const selectCaracterEditCaracter = (state: State) => state.caracter;
+export namespace selectors {
+  export const caracter = (state: State) => state.caracter;
+}

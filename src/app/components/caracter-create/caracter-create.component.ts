@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import {
-  AppState,
-  caracterCreateCaracter,
-  CaracterCreateReset,
-  CaracterCreateSave,
-  CaracterCreateSet,
-} from 'src/app/store';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { AppState, CaracterCreate, } from 'src/app/store';
 
 @Component({
   selector: 'app-caracter-create',
@@ -43,10 +38,10 @@ export class CaracterCreateComponent implements OnInit {
     });
     this.formSubscription = this.formGroup.valueChanges.subscribe(
       (value) => {
-        this.store.dispatch(new CaracterCreateSet(value.caracter));
+        this.store.dispatch(new CaracterCreate.actions.Set(value.caracter));
       }
     );
-    this.storeSubscription = this.store.select(caracterCreateCaracter).subscribe(
+    this.storeSubscription = this.store.select(CaracterCreate.selectors.selectCaracter).subscribe(
       (caracter) => {
         this.formGroup.setValue({ caracter }, { emitEvent: false, });
       }
@@ -63,12 +58,12 @@ export class CaracterCreateComponent implements OnInit {
   }
 
   saveCaracter() {
-    this.store.dispatch(new CaracterCreateSave(this.formGroup.value.caracter));
+    this.store.dispatch(new CaracterCreate.actions.Save(this.formGroup.value.caracter));
     this.router.navigate(['/caracter-list']);
   }
 
   reset() {
-    this.store.dispatch(new CaracterCreateReset());
+    this.store.dispatch(new CaracterCreate.actions.Reset());
   }
 
   cancel() {

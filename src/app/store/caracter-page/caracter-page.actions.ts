@@ -2,36 +2,60 @@ import { Action } from '@ngrx/store';
 
 import { PageRequest, Page, Caracter } from 'src/app/model';
 
-export enum CaracterPageActionTypes {
+export enum ActionTypes {
   Load = '[CaracterPage] Load CaracterPage',
   LoadSuccess = '[CaracterPage] Load Success',
-  Stale = '[CaracterPage] Page Stale',
+  LoadFailure = '[CaracterPage] Load Failure',
+  LoadRequest = '[CaracterPage] Request Loading CaracterPage',
   Delete = '[CaracterPage] Delete Caracter',
+  DeleteSuccess = '[CaracterPage] Delete Success',
+  DeleteFailure = '[CaracterPage] Delete Failure',
 }
 
-export class CaracterPageLoad implements Action {
-  readonly type = CaracterPageActionTypes.Load;
-  constructor(
-    public payload: PageRequest,
-  ) { }
+export class Load implements Action {
+  readonly type = ActionTypes.Load;
 }
 
-export class CaracterPageLoadSuccess implements Action {
-  readonly type = CaracterPageActionTypes.LoadSuccess;
+export class LoadSuccess implements Action {
+  readonly type = ActionTypes.LoadSuccess;
   constructor(
     public payload: Page<Caracter>,
   ) { }
 }
 
-export class CaracterPageStale implements Action {
-  readonly type = CaracterPageActionTypes.Stale;
-}
-
-export class CaracterPageDelete implements Action {
-  readonly type = CaracterPageActionTypes.Delete;
+export class LoadFailure implements Action {
+  readonly type = ActionTypes.LoadFailure;
   constructor(
-    public payload : string,
-  ){}
+    public payload: any,
+  ) { }
 }
 
-export type CaracterPageAction = CaracterPageLoad | CaracterPageLoadSuccess | CaracterPageStale;
+export class LoadRequest implements Action {
+  readonly type = ActionTypes.LoadRequest;
+  constructor(
+    public payload: PageRequest,
+  ) { }
+}
+
+export class Delete implements Action {
+  readonly type = ActionTypes.Delete;
+  constructor(
+    public payload: string,
+  ) { }
+}
+
+export class DeleteSuccess implements Action {
+  readonly type = ActionTypes.DeleteSuccess;
+  constructor(
+    public payload: string,
+  ) { }
+}
+
+export class DeleteFailure implements Action {
+  readonly type = ActionTypes.DeleteFailure;
+  constructor(
+    public payload: any,
+  ) { }
+}
+
+export type AnyAction = Load | LoadSuccess | LoadFailure | LoadRequest | Delete | DeleteSuccess | DeleteFailure;

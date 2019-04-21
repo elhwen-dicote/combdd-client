@@ -1,5 +1,5 @@
 import { Caracter } from 'src/app/model/caracter.model';
-import { CaracterCreateAction, CaracterCreateActionTypes } from './caracter-create.actions';
+import { CaracterCreateAction, ActionTypes } from './caracter-create.actions';
 
 
 export interface State {
@@ -20,13 +20,13 @@ export const initialState: State = {
 export function reducer(state = initialState, action: CaracterCreateAction): State {
   switch (action.type) {
 
-    case CaracterCreateActionTypes.Set:
+    case ActionTypes.Set:
       return {
         ...state,
         caracter: checkCaracter(state.caracter, action.payload)
       };
 
-    case CaracterCreateActionTypes.Reset:
+    case ActionTypes.Reset:
       return initialState;
 
     default:
@@ -34,7 +34,9 @@ export function reducer(state = initialState, action: CaracterCreateAction): Sta
   }
 }
 
-export const selectCaracterCreateCaracter = (state: State) => state.caracter;
+export namespace selectors {
+  export const caracter = (state: State) => state.caracter;
+}
 
 function checkCaracter(caracter: Caracter, update: Partial<Caracter>): Caracter {
   let valid: Caracter = {

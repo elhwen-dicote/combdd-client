@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { AppState, GroupPage } from 'src/app/store';
-import { Observable } from 'rxjs';
-import { PageRequest, PageMeta, Group, Page } from 'src/app/model';
 import { Router } from '@angular/router';
-import { Action } from 'rxjs/internal/scheduler/Action';
+
+import { Store } from '@ngrx/store';
+
+import { AppState, GroupPage } from 'src/app/store';
+import { Group } from 'src/app/model';
+import { TableAction } from 'src/app/util/table-action';
 
 @Component({
   selector: 'app-group-list',
@@ -14,17 +15,9 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 export class GroupListComponent implements OnInit {
 
   columns = ['name', 'members', 'edit', 'delete'];
-  actions = [
-    {
-      name: 'edit',
-      header: '',
-      icon: 'edit',
-    }, {
-      name: 'delete',
-      header: '',
-      icon: 'delete',
-    },
-
+  actions: TableAction<Group>[] = [
+    new TableAction<Group>('edit', '', 'edit'),
+    new TableAction<Group>('delete', '', 'delete'),
   ];
 
   constructor(

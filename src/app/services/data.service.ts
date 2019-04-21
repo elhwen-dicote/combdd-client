@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import { ApiService } from './api.service';
 import { DataCacheService } from './data-cache.service';
-import { Observable, of } from 'rxjs';
 import { Caracter, PageRequest, Page, Group } from '../model';
-import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,11 @@ export class DataService {
   ) { }
 
   saveCaracter(c: Caracter): Observable<Caracter> {
-    return this.api.saveCaracter(c);
+    return this.api.saveCaracter(c).pipe(
+      tap(caracter => {
+        this.cache.savedCaracter(caracter);
+      })
+    );
   }
 
   getCaracter(id: string): Observable<Caracter> {
@@ -59,7 +65,11 @@ export class DataService {
   }
 
   deleteCaracter(id: string): Observable<void> {
-    return this.api.deleteCaracter(id);
+    return this.api.deleteCaracter(id).pipe(
+      tap(() => {
+        this.cache.deleteCaracter(id);
+      })
+    );
   }
 
   saveGroup(group: Group): Observable<Group> {
@@ -85,9 +95,9 @@ export class DataService {
     return result;
   }
 
-  updateGroup(group:Group):Observable<Group> {
+  updateGroup(group: Group): Observable<Group> {
     return this.api.updateGroup(group).pipe(
-      tap(group=>{
+      tap(group => {
         this.cache.putGroup(group);
       }),
     );

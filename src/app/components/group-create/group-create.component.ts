@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
@@ -37,6 +38,7 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
+    private router: Router,
     private location: Location,
   ) { }
 
@@ -93,6 +95,7 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
 
   saveGroup() {
     this.store.dispatch(new GroupCreate.actions.Save(this.group));
+    this.router.navigate(['/group-list']);
   }
 
   cancel() {

@@ -3,7 +3,8 @@
     <input matInput type="text" [formControl]="filterControl" placeholder="filtre...">
 </mat-form-field>
 
-<mat-table [dataSource]="caracters$" matSort>
+<mat-table [dataSource]="caracters$" matSort [matSortActive]="matSortActive$ | async"
+    [matSortDirection]="matSortDirection$ | async">
 
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
@@ -44,5 +45,6 @@
     <mat-row *matRowDef="let row;columns:columns"></mat-row>
 
 </mat-table>
-<mat-paginator [length]="(meta$|async).totalCount" pageSize="3" pageIndex="0" [pageSizeOptions]="[3,5,10]">
+<mat-paginator [length]="paginatorLength$ | async" [pageSize]="paginatorPageSize$ | async"
+    [pageIndex]="paginatorPageIndex$ | async" [pageSizeOptions]="[3,5,10]">
 </mat-paginator>

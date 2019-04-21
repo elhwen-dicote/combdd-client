@@ -4,7 +4,7 @@ import { NG_VALUE_ACCESSOR, FormGroup, FormBuilder } from "@angular/forms";
 import { Subscription } from 'rxjs';
 
 import { Group, Caracter } from 'src/app/model';
-import { Action } from '../caracter-table/caracter-table.component';
+import { TableAction } from 'src/app/util/table-action';
 
 const noop = () => { };
 
@@ -27,14 +27,14 @@ export class GroupFormComponent implements OnInit, OnDestroy {
 
   // table des membres du group.
   columns = ['name', 'remove'];
-  actions: Action[] = [
-    new Action('remove', 'Enlever', 'remove'),
+  actions: TableAction<Group>[] = [
+    new TableAction<Group>('remove', 'Enlever', 'remove'),
   ];
 
   // table des personnages pour sélection
   caractersColumns = ['name', 'hp', 'add'];
-  caracterActions: Action[] = [
-    new Action(
+  caracterActions: TableAction<Caracter>[] = [
+    new TableAction<Caracter>(
       'add', // name
       'Ajouter', // header
       'add', // icon
@@ -101,7 +101,7 @@ export class GroupFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  onClick(action: Action, caracter: Caracter) {
+  onClick(action: TableAction<Caracter>, caracter: Caracter) {
     switch (action.name) {
       case 'remove': {
         this.group = GroupFormComponent.removeMember(caracter, this.group);

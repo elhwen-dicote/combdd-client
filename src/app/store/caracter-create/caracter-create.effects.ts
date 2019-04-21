@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+
+import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, EMPTY } from 'rxjs';
-import { Action } from '@ngrx/store';
-import { CaracterCreateSave, CaracterCreateActionTypes, CaracterCreateReset } from './caracter-create.actions';
 import { switchMap, concatMap, catchError } from 'rxjs/operators';
+
 import { Caracter } from 'src/app/model/caracter.model';
-import { CaracterPageStale } from '../caracter-page/caracter-page.actions';
 import { DataService } from 'src/app/services/data.service';
+import { CaracterPage, CaracterCreate } from '../app-store';
 
 @Injectable()
 export class CaracterCreateEffects {
@@ -18,16 +19,14 @@ export class CaracterCreateEffects {
 
   @Effect()
   caracterSave$: Observable<Action> = this.actions$.pipe(
-    ofType<CaracterCreateSave>(CaracterCreateActionTypes.Save),
+    ofType<CaracterCreate.actions.Save>(CaracterCreate.actions.ActionTypes.Save),
     switchMap(
-      (action: CaracterCreateSave) => {
+      (action) => {
         return this.dataService.saveCaracter(action.payload).pipe(
-          concatMap((c: Caracter) => {
-            return [
-              new CaracterCreateReset(),
-              new CaracterPageStale(),
-            ];
-          }),
+          concatMap(c => [
+            new CaracterCreate.actions.Reset(),
+            new CaracterPage.actions.Load(),
+          ]),
           catchError((error) => {
             console.error(error);
             return EMPTY;

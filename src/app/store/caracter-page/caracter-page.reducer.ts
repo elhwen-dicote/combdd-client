@@ -1,51 +1,39 @@
-import { Action } from '@ngrx/store';
-import { CaracterPageAction, CaracterPageActionTypes } from './caracter-page.actions';
-import { Caracter, Page } from 'src/app/model';
+import { AnyAction, ActionTypes } from './caracter-page.actions';
+import { Caracter, Page, PageRequest, defaultPageRequest } from 'src/app/model';
 
 export interface State {
   page: Page<Caracter>;
+  request: PageRequest;
   loading: boolean;
-  stale: boolean;
 }
 
 export const initialState: State = {
-  page: {
-    page: [],
-    meta: {
-      filter: '',
-      totalCount: 0,
-      pageOffset: 0,
-      pageSize: 0,
-      sortBy: '',
-      sortOrder: '',
-      dataSize: 0,
-    },
-  },
+  page: { page: null, meta: null, },
+  request: defaultPageRequest,
   loading: false,
-  stale: false,
 };
 
-export function reducer(state = initialState, action: CaracterPageAction): State {
+export function reducer(state = initialState, action: AnyAction): State {
   switch (action.type) {
 
-    case CaracterPageActionTypes.Load:
+    case ActionTypes.LoadRequest: {
+      return {
+        ...state,
+        request: action.payload,
+      };
+    }
+
+    case ActionTypes.Load:
       return {
         ...state,
         loading: true,
       }
 
-    case CaracterPageActionTypes.LoadSuccess:
+    case ActionTypes.LoadSuccess:
       return {
         ...state,
         page: action.payload,
         loading: false,
-        stale: false,
-      }
-
-    case CaracterPageActionTypes.Stale:
-      return {
-        ...state,
-        stale: true,
       }
 
     default:
@@ -53,7 +41,10 @@ export function reducer(state = initialState, action: CaracterPageAction): State
   }
 }
 
-export const selectCaracterPageCaracters = (state: State) => state.page.page;
-export const selectCaracterPageTotalCount = (state: State) => state.page.meta.totalCount;
-export const selectCaracterPageStale = (state: State) => state.stale;
-export const selectCaracterPageMeta = (state: State) => state.page.meta;
+export namespace selectors {
+  export const page = (state: State) => state.page.page;
+  export const request = (state: State) => state.request;
+  export const loading = (state: State) => state.loading;
+  export const caracters = (state: State) => state.page.page;
+  export const meta = (state: State) => state.page.meta;
+}

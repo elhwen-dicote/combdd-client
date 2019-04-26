@@ -28,6 +28,17 @@ export function reducer(state = initialState, action: AnyAction): State {
     case ActionTypes.Reset:
       return initialState;
 
+    case ActionTypes.CaracterDeleted: {
+      const id = action.payload;
+      return {
+        ...state,
+        group: {
+          ...state.group,
+          members: state.group.members.filter(car => car._id !== id),
+        }
+      }
+    }
+
     default:
       return state;
   }

@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { PageRequest, Page, Caracter } from 'src/app/model';
 
 export enum ActionTypes {
-  Load = '[CaracterPage] Load CaracterPage',
+  Load = '[CaracterPage] Load Caracter Page',
   LoadSuccess = '[CaracterPage] Load Success',
   LoadFailure = '[CaracterPage] Load Failure',
   LoadRequest = '[CaracterPage] Request Loading CaracterPage',

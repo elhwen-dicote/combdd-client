@@ -5,6 +5,7 @@ export enum ActionTypes {
   Set = '[GroupCreate] Set Group',
   Reset = '[GroupCreate] Reset Form',
   Save = '[GroupCreate] Save Group',
+  CaracterDeleted = '[GroupCreate] Caracter Deleted',
 }
 
 export class Set implements Action {
@@ -25,5 +26,12 @@ export class Save implements Action {
   ) { }
 }
 
-export type AnyAction = Set | Reset | Save;
+export class CaracterDeleted implements Action {
+  readonly type = ActionTypes.CaracterDeleted;
+  constructor(
+    public payload: string,
+  ) { }
+}
+
+export type AnyAction = Set | Reset | Save | CaracterDeleted;
 

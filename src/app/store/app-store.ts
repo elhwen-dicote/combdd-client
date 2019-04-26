@@ -108,6 +108,7 @@ export namespace GroupCreate {
     export import Set = _GroupCreate.Set;
     export import Reset = _GroupCreate.Reset;
     export import Save = _GroupCreate.Save;
+    export import CaracterDeleted = _GroupCreate.CaracterDeleted;
   }
 
   // group-create selectors
